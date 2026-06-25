@@ -27,6 +27,7 @@ from tradingagents.agents.utils.agent_utils import (
     get_verified_market_snapshot,
     resolve_instrument_identity,
 )
+from tradingagents.agents.utils.china_market_tools import CHINA_MARKET_TOOLS
 from tradingagents.agents.utils.memory import TradingMemoryLog
 from tradingagents.dataflows.config import set_config
 from tradingagents.dataflows.utils import safe_ticker_component
@@ -49,7 +50,7 @@ class TradingAgentsGraph:
 
     def __init__(
         self,
-        selected_analysts=("market", "social", "news", "fundamentals"),
+        selected_analysts=("market", "social", "news", "fundamentals", "china_market"),
         debug=False,
         config: dict[str, Any] = None,
         callbacks: list | None = None,
@@ -198,6 +199,7 @@ class TradingAgentsGraph:
                     get_income_statement,
                 ]
             ),
+            "china_market": ToolNode(CHINA_MARKET_TOOLS),
         }
 
     def _resolve_benchmark(self, ticker: str) -> str:
@@ -446,6 +448,7 @@ class TradingAgentsGraph:
             "sentiment_report": final_state["sentiment_report"],
             "news_report": final_state["news_report"],
             "fundamentals_report": final_state["fundamentals_report"],
+            "china_market_report": final_state.get("china_market_report", ""),
             "investment_debate_state": {
                 "bull_history": final_state["investment_debate_state"]["bull_history"],
                 "bear_history": final_state["investment_debate_state"]["bear_history"],

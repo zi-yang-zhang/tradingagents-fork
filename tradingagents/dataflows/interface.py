@@ -19,6 +19,17 @@ from .errors import (
 )
 from .fred import get_macro_data as get_fred_macro_data
 from .polymarket import get_prediction_markets as get_polymarket_prediction_markets
+from .stock_data_hub import (
+    get_stock as get_stock_data_hub,
+    get_indicator as get_indicator_stock_data_hub,
+    get_fundamentals as get_fundamentals_stock_data_hub,
+    get_balance_sheet as get_balance_sheet_stock_data_hub,
+    get_cashflow as get_cashflow_stock_data_hub,
+    get_income_statement as get_income_statement_stock_data_hub,
+    get_news as get_news_stock_data_hub,
+    get_global_news as get_global_news_stock_data_hub,
+    get_insider_transactions as get_insider_transactions_stock_data_hub,
+)
 from .y_finance import (
     get_balance_sheet as get_yfinance_balance_sheet,
     get_cashflow as get_yfinance_cashflow,
@@ -79,6 +90,7 @@ TOOLS_CATEGORIES = {
 
 VENDOR_LIST = [
     "yfinance",
+    "stock_data_hub",
     "fred",
     "polymarket",
     "alpha_vantage",
@@ -97,41 +109,50 @@ VENDOR_METHODS = {
     "get_stock_data": {
         "alpha_vantage": get_alpha_vantage_stock,
         "yfinance": get_YFin_data_online,
+        "stock_data_hub": get_stock_data_hub,
     },
     # technical_indicators
     "get_indicators": {
         "alpha_vantage": get_alpha_vantage_indicator,
         "yfinance": get_stock_stats_indicators_window,
+        "stock_data_hub": get_indicator_stock_data_hub,
     },
     # fundamental_data
     "get_fundamentals": {
         "alpha_vantage": get_alpha_vantage_fundamentals,
         "yfinance": get_yfinance_fundamentals,
+        "stock_data_hub": get_fundamentals_stock_data_hub,
     },
     "get_balance_sheet": {
         "alpha_vantage": get_alpha_vantage_balance_sheet,
         "yfinance": get_yfinance_balance_sheet,
+        "stock_data_hub": get_balance_sheet_stock_data_hub,
     },
     "get_cashflow": {
         "alpha_vantage": get_alpha_vantage_cashflow,
         "yfinance": get_yfinance_cashflow,
+        "stock_data_hub": get_cashflow_stock_data_hub,
     },
     "get_income_statement": {
         "alpha_vantage": get_alpha_vantage_income_statement,
         "yfinance": get_yfinance_income_statement,
+        "stock_data_hub": get_income_statement_stock_data_hub,
     },
     # news_data
     "get_news": {
         "alpha_vantage": get_alpha_vantage_news,
         "yfinance": get_news_yfinance,
+        "stock_data_hub": get_news_stock_data_hub,
     },
     "get_global_news": {
         "yfinance": get_global_news_yfinance,
         "alpha_vantage": get_alpha_vantage_global_news,
+        "stock_data_hub": get_global_news_stock_data_hub,
     },
     "get_insider_transactions": {
         "alpha_vantage": get_alpha_vantage_insider_transactions,
         "yfinance": get_yfinance_insider_transactions,
+        "stock_data_hub": get_insider_transactions_stock_data_hub,
     },
     # macro_data
     "get_macro_indicators": {

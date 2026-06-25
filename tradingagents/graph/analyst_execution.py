@@ -50,6 +50,13 @@ ANALYST_NODE_SPECS: dict[str, AnalystNodeSpec] = {
         tool_node="tools_fundamentals",
         report_key="fundamentals_report",
     ),
+    "china_market": AnalystNodeSpec(
+        key="china_market",
+        agent_node="China Market Analyst",
+        clear_node="Msg Clear China Market",
+        tool_node="tools_china_market",
+        report_key="china_market_report",
+    ),
 }
 
 

@@ -49,6 +49,14 @@ class ConditionalLogic:
             return "tools_fundamentals"
         return "Msg Clear Fundamentals"
 
+    def should_continue_china_market(self, state: AgentState):
+        """Determine if china market analysis should continue."""
+        messages = state["messages"]
+        last_message = messages[-1]
+        if last_message.tool_calls:
+            return "tools_china_market"
+        return "Msg Clear China Market"
+
     def should_continue_debate(self, state: AgentState) -> str:
         """Determine if debate should continue."""
 
