@@ -15,6 +15,7 @@ from collections.abc import Iterable
 import pandas as pd
 from stockstats import wrap
 
+from tradingagents.dataflows.errors import NoMarketDataError
 from tradingagents.dataflows.stockstats_utils import load_ohlcv
 
 # A fixed, common indicator set so the snapshot is the same shape every run.
@@ -66,6 +67,21 @@ def build_verified_market_snapshot(
     indicators: Iterable[str] | None = None,
 ) -> str:
     """Render a ground-truth snapshot: latest OHLCV row, indicators, recent closes."""
+    try:
+        df = _verified_rows(symbol, curr_date)
+    except (ValueError, NoMarketDataError) as exc:
+        # A-shares and other non-Yahoo symbols won't have yfinance data.
+        # Return a clear sentinel so the LLM knows to rely on its other
+        # tools (stock_data_hub, etc.) instead of fabricating numbers.
+        return (
+            f"VERIFIED_SNAPSHOT_UNAVAILABLE: Could not compute a ground-truth "
+            f"market snapshot for '{symbol}' — {exc}. "
+            f"For A-share stocks this is expected: the snapshot uses a US-market "
+            f"data source. Rely exclusively on get_stock_data and get_indicators "
+            f"for exact OHLCV and indicator values for this symbol. Do not "
+            f"estimate or fabricate specific price levels, support/resistance "
+            f"bounces, or indicator readings from the snapshot."
+        )
     # `df` keeps the original capitalized OHLCV columns (Open/High/Low/Close/
     # Volume); stockstats `wrap()` lowercases columns and adds indicator
     # columns, so read raw prices from `df` and indicators from `stock_df`.
